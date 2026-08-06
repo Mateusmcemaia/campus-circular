@@ -10,9 +10,9 @@ export interface Listing {
   title: string;
   description: string;
   category: string;
-  price: number | null;
-  is_donation: boolean;
-  image_url: string;
+  price?: number | null;
+  is_donation?: boolean;
+  image_url?: string;
   user_id?: string;
 }
 
@@ -168,5 +168,18 @@ export function ListingCard({ listing }: { listing: Listing }) {
         </div>
       )}
     </>
+  );
+}
+export function ListingCardSkeleton() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-border/60 bg-card p-4 space-y-3 animate-pulse">
+      <div className="aspect-4/3 w-full bg-muted rounded-xl" />
+      <div className="h-5 w-3/4 bg-muted rounded" />
+      <div className="h-4 w-full bg-muted rounded" />
+      <div className="flex justify-between items-center pt-2">
+        <div className="h-6 w-1/3 bg-muted rounded" />
+        <div className="h-4 w-1/4 bg-muted rounded" />
+      </div>
+    </div>
   );
 }
