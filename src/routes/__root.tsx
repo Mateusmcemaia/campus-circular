@@ -102,8 +102,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/unifor-logo.png" }, // <-- Nome corrigido
-      { rel: "icon", type: "image/png", href: "/unifor-logo.png" }, // <-- Nome corrigido
+      { rel: "icon", type: "image/png", href: "/unifor-logo.png" },
+      { rel: "shortcut icon", type: "image/png", href: "/unifor-logo.png" },
+      { rel: "apple-touch-icon", href: "/unifor-logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
