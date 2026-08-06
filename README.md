@@ -8,7 +8,10 @@ O **CirculaCampus** é uma plataforma web e mobile (PWA) focada na economia circ
 
 O projeto foi concebido utilizando uma arquitetura moderna dividida entre uma interface responsiva instalável via Service Workers (Frontend) e uma integração direta com banco de dados relacional em nuvem via API RESTful (Backend as a Service).
 
-🔗 **Acesse o sistema em produção:** [COLOQUE SEU LINK DO NETLIFY AQUI]
+> **🚀 APLICAÇÃO EM PRODUÇÃO (DEPLOY)**
+> O sistema está no ar com CI/CD configurado e banco de dados real (Supabase).
+> **🔗 Acesse agora: [https://campuscircularvortex.netlify.app](https://campuscircularvortex.netlify.app)**
+https://campuscircularvortex.netlify.app/
 
 ---
 
