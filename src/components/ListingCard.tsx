@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle, X, Eye } from "lucide-react";
 import { toast } from "sonner";
 
 export interface Listing {
@@ -19,6 +19,12 @@ export interface Listing {
 export function ListingCard({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleOpenModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log("Abrindo modal para o item:", listing.title);
+    setIsOpen(true);
+  };
+
   const handleInterest = (e: React.MouseEvent) => {
     e.stopPropagation();
     toast.success("Redirecionando para contato com o estudante...");
@@ -30,9 +36,12 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
   return (
     <>
-      {/* O card inteiro agora é clicável */}
-      <div onClick={() => setIsOpen(true)} className="cursor-pointer group">
-        <Card className="overflow-hidden transition-all duration-300 group-hover:shadow-lg border-border/60 bg-card rounded-2xl">
+      {/* Card Principal */}
+      <Card 
+        onClick={handleOpenModal}
+        className="overflow-hidden transition-all duration-300 hover:shadow-lg border-border/60 bg-card rounded-2xl cursor-pointer group flex flex-col justify-between"
+      >
+        <div>
           <div className="relative aspect-4/3 overflow-hidden bg-muted">
             <img
               src={
@@ -55,7 +64,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
             <p className="text-sm text-muted-foreground line-clamp-2">
               {listing.description}
             </p>
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between pt-1">
               <span className="font-display font-bold text-lg text-foreground">
                 {listing.is_donation || !listing.price ? (
                   <span className="text-primary text-xs font-semibold uppercase tracking-wider bg-primary/10 px-2.5 py-1 rounded-full">
@@ -70,10 +79,22 @@ export function ListingCard({ listing }: { listing: Listing }) {
               </span>
             </div>
           </CardContent>
-        </Card>
-      </div>
+        </div>
 
-      {/* Modal Customizado com Tailwind (Garantido de abrir ao clicar) */}
+        {/* Botão visível para forçar a abertura do modal */}
+        <div className="p-4 pt-0">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleOpenModal}
+            className="w-full rounded-xl gap-2 border-primary/30 text-primary hover:bg-primary/10"
+          >
+            <Eye className="size-4" /> Ver Detalhes
+          </Button>
+        </div>
+      </Card>
+
+      {/* Modal Customizado */}
       {isOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
