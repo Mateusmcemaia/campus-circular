@@ -48,34 +48,39 @@ function LandingPage() {
       <SiteHeader />
 
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
-          <div className="fade-up space-y-6">
+        {/* Aqui mudei para text-center no celular e text-left no desktop */}
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20 text-center lg:text-left">
+          
+          {/* Adicionei flex-col e items-center para alinhar tudo ao meio no celular */}
+          <div className="fade-up space-y-6 flex flex-col items-center lg:items-start">
             <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
               <Leaf className="size-3.5" /> Economia circular universitária
             </span>
-            {/* Título/Logo principal ampliado para maior destaque visual */}
+            
             <h1 className="text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-6xl tracking-tight">
               O que sobra de um semestre é o que falta para o próximo.
             </h1>
+            
             <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
               O CirculaCampus conecta estudantes do mesmo campus para revender, doar e reaproveitar
               livros, calculadoras, componentes e equipamentos. Nada de frete, nada de desperdício:
               o item troca de mãos no corredor ao lado.
             </p>
-            {/* Botões maiores, destacados e arredondados */}
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 shadow-md">
+            
+            {/* Botões ocupam 100% da tela no celular e ficam lado a lado no PC */}
+            <div className="flex flex-col w-full sm:w-auto sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+              <Button asChild size="lg" className="w-full sm:w-auto px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 shadow-md">
                 <Link to="/anunciar">
                   Quero anunciar <ArrowRight className="size-5 ml-2" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 border-2">
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 border-2">
                 <Link to="/buscar">Buscar itens</Link>
               </Button>
             </div>
           </div>
 
-          <div className="fade-up relative">
+          <div className="fade-up relative mt-6 lg:mt-0">
             <div className="overflow-hidden rounded-3xl shadow-lift">
               <img
                 src={heroImage}
@@ -92,11 +97,11 @@ function LandingPage() {
       <section className="border-y border-border bg-surface">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 sm:grid-cols-3">
           {stats.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="flex items-start gap-4">
+            <div key={label} className="flex items-center lg:items-start gap-4 justify-center lg:justify-start">
               <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
                 <Icon className="size-5" />
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 text-left">
                 <p className="font-display text-3xl font-semibold">{value}</p>
                 <p className="text-sm text-muted-foreground">{label}</p>
               </div>
@@ -105,8 +110,8 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:justify-between">
+      <section className="mx-auto max-w-6xl px-4 py-14 text-center lg:text-left">
+        <div className="mb-8 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4">
           <div className="min-w-0">
             <h2 className="text-2xl font-semibold sm:text-3xl">Vitrine pública</h2>
             <p className="mt-1 text-sm text-muted-foreground">
