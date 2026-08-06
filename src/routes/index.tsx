@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
         content: "Vitrine de itens usados e doações entre estudantes da universidade.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/unifor-share.png" }, // Aqui é onde o WhatsApp puxa a imagem!
+      { property: "og:image", content: "/unifor-logo.png" }, // Aqui é onde o WhatsApp puxa a imagem!
     ],
     links: [
       {
