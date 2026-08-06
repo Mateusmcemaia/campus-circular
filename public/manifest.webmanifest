@@ -1,0 +1,26 @@
+{
+  "name": "CirculaCampus — Economia circular universitária",
+  "short_name": "CirculaCampus",
+  "description": "Anuncie, doe e encontre itens usados dentro do seu campus.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfaf3",
+  "theme_color": "#1f7a55",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
