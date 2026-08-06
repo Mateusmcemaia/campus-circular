@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Search, PlusCircle, LayoutList } from "lucide-react";
+import { Search, PlusCircle, LayoutList, Home } from "lucide-react";
 import type { ReactNode } from "react";
 
 const tabs = [
+  { to: "/", label: "Início", icon: Home },
   { to: "/buscar", label: "Explorar", icon: Search },
   { to: "/anunciar", label: "Anunciar", icon: PlusCircle },
   { to: "/meus-anuncios", label: "Meus itens", icon: LayoutList },
@@ -36,6 +37,7 @@ export function AppShell({
             <Link
               key={to}
               to={to}
+              activeOptions={{ exact: true }}
               className="flex flex-1 flex-col items-center gap-1 py-3 text-[11px] font-medium text-muted-foreground transition-colors data-[status=active]:text-primary"
             >
               <Icon className="size-5" />
