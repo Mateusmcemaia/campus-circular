@@ -4,22 +4,37 @@ import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:flex sm:justify-between">
-        <Link to="/" className="flex min-w-0 items-center gap-2">
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground">
-            <Recycle className="size-5" />
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Aumentei a altura do header de h-14/16 para h-24 para acomodar elementos maiores */}
+      <div className="container flex h-24 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+        
+        {/* Lado Esquerdo: Logo e Título */}
+        <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105">
+          <div className="bg-primary text-primary-foreground p-2 rounded-full">
+            {/* Ícone gigante */}
+            <Recycle className="size-8 sm:size-10" />
+          </div>
+          {/* Título gigante */}
+          <span className="font-bold text-2xl sm:text-3xl tracking-tight">
+            CirculaCampus
           </span>
-          <span className="truncate font-display text-lg font-semibold">CirculaCampus</span>
         </Link>
-        <nav className="flex items-center gap-1 sm:gap-2">
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/buscar">Buscar</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link to="/anunciar">Anunciar</Link>
+
+        {/* Lado Direito: Navegação e Botão */}
+        <nav className="flex items-center gap-6 sm:gap-8">
+          <Link 
+            to="/buscar" 
+            className="text-lg sm:text-xl font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Buscar
+          </Link>
+          <Button asChild size="lg" className="px-6 py-6 text-lg sm:text-xl font-semibold rounded-full shadow-sm">
+            <Link to="/anunciar">
+              Anunciar
+            </Link>
           </Button>
         </nav>
+        
       </div>
     </header>
   );
