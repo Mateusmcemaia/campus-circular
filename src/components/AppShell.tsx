@@ -20,7 +20,8 @@ export function AppShell({
 }) {
   return (
     <div className="min-h-screen bg-background pb-24">
-      <div className="bg-hero-gradient px-4 pt-8 pb-10 text-primary-foreground">
+      {/* Aqui substituímos o bg-hero-gradient pelo bg-primary para usar o azul da UNIFOR */}
+      <div className="bg-primary px-4 pt-8 pb-10 text-primary-foreground">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
           {subtitle ? (
