@@ -53,7 +53,8 @@ function LandingPage() {
             <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
               <Leaf className="size-3.5" /> Economia circular universitária
             </span>
-            <h1 className="text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
+            {/* Título/Logo principal ampliado para maior destaque visual */}
+            <h1 className="text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-6xl tracking-tight">
               O que sobra de um semestre é o que falta para o próximo.
             </h1>
             <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
@@ -61,8 +62,9 @@ function LandingPage() {
               livros, calculadoras, componentes e equipamentos. Nada de frete, nada de desperdício:
               o item troca de mãos no corredor ao lado.
             </p>
+            {/* Botões maiores, destacados e arredondados */}
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105">
+              <Button asChild size="lg" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 shadow-md">
                 <Link to="/anunciar">
                   Quero anunciar <ArrowRight className="size-5 ml-2" />
                 </Link>
