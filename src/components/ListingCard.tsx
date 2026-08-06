@@ -2,15 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription, 
-  DialogFooter 
-} from "@/components/ui/dialog";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { toast } from "sonner";
 
 export interface Listing {
@@ -27,7 +19,8 @@ export interface Listing {
 export function ListingCard({ listing }: { listing: Listing }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleInterest = () => {
+  const handleInterest = (e: React.MouseEvent) => {
+    e.stopPropagation();
     toast.success("Redirecionando para contato com o estudante...");
     const message = encodeURIComponent(
       `Olá! Vi seu anúncio "${listing.title}" no CirculaCampus e tenho interesse.`
@@ -80,10 +73,23 @@ export function ListingCard({ listing }: { listing: Listing }) {
         </Card>
       </div>
 
-      {/* Modal de Detalhes do Anúncio */}
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-lg rounded-3xl p-6">
-          <DialogHeader className="space-y-3">
+      {/* Modal Customizado com Tailwind (Garantido de abrir ao clicar) */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+          onClick={() => setIsOpen(false)}
+        >
+          <div 
+            className="bg-background border border-border w-full max-w-lg rounded-3xl p-6 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 rounded-full p-2 bg-muted/80 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors z-10"
+            >
+              <X className="size-4" />
+            </button>
+
             <div className="overflow-hidden rounded-2xl aspect-video bg-muted relative">
               <img
                 src={
@@ -99,44 +105,47 @@ export function ListingCard({ listing }: { listing: Listing }) {
                 </Badge>
               </div>
             </div>
-            <DialogTitle className="text-xl font-bold">{listing.title}</DialogTitle>
-            <DialogDescription className="text-base text-muted-foreground leading-relaxed pt-1">
-              {listing.description}
-            </DialogDescription>
-          </DialogHeader>
 
-          <div className="py-4 border-y border-border my-2 flex items-center justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Valor</p>
-              <p className="text-2xl font-bold font-display text-primary mt-0.5">
-                {listing.is_donation || !listing.price
-                  ? "Gratuito (Doação)"
-                  : `R$ ${Number(listing.price).toFixed(2)}`}
+            <div className="space-y-1">
+              <h2 className="text-xl font-bold">{listing.title}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {listing.description}
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Local de Retirada</p>
-              <p className="text-sm font-medium text-foreground mt-0.5">Corredor do Bloco / Campus</p>
+
+            <div className="py-3 border-y border-border flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Valor</p>
+                <p className="text-xl font-bold font-display text-primary mt-0.5">
+                  {listing.is_donation || !listing.price
+                    ? "Gratuito (Doação)"
+                    : `R$ ${Number(listing.price).toFixed(2)}`}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Local de Retirada</p>
+                <p className="text-sm font-medium text-foreground mt-0.5">Campus UNIFOR</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsOpen(false)}
+                className="w-full rounded-full"
+              >
+                Fechar
+              </Button>
+              <Button
+                onClick={handleInterest}
+                className="w-full rounded-full gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                <MessageCircle className="size-4" /> Tenho Interesse (WhatsApp)
+              </Button>
             </div>
           </div>
-
-          <DialogFooter className="flex gap-3 sm:gap-0 pt-2">
-            <Button
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-              className="w-full sm:w-auto rounded-full"
-            >
-              Fechar
-            </Button>
-            <Button
-              onClick={handleInterest}
-              className="w-full sm:w-auto rounded-full gap-2 bg-primary hover:bg-primary/90"
-            >
-              <MessageCircle className="size-4" /> Tenho Interesse (WhatsApp)
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   );
 }
