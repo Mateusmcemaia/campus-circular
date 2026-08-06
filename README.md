@@ -1,17 +1,18 @@
 # ♻️ CirculaCampus — Marketplace de Economia Circular
 
+> **🚀 APLICAÇÃO EM PRODUÇÃO (DEPLOY)**
+> O sistema está no ar com CI/CD configurado e banco de dados real (Supabase).
+> **🔗 Acesse agora: [https://campuscircularvortex.netlify.app](https://campuscircularvortex.netlify.app)**
+
 **Candidato:** Mateus Maia Cavalcante Evangelista (Ciência da Computação - UNIFOR)
 **Projeto:** Processo Seletivo para Estágio Full-Stack | Laboratório VORTEX
+
+---
 
 ## 📖 Sobre o Projeto
 O **CirculaCampus** é uma plataforma web e mobile (PWA) focada na economia circular dentro do ambiente universitário. O sistema conecta estudantes do mesmo campus para revender, doar e reaproveitar itens como livros, calculadoras, componentes e equipamentos. 
 
 O projeto foi concebido utilizando uma arquitetura moderna dividida entre uma interface responsiva instalável via Service Workers (Frontend) e uma integração direta com banco de dados relacional em nuvem via API RESTful (Backend as a Service).
-
-> **🚀 APLICAÇÃO EM PRODUÇÃO (DEPLOY)**
-> O sistema está no ar com CI/CD configurado e banco de dados real (Supabase).
-> **🔗 Acesse agora: [https://campuscircularvortex.netlify.app](https://campuscircularvortex.netlify.app)**
-https://campuscircularvortex.netlify.app/
 
 ---
 
@@ -32,8 +33,9 @@ O projeto foi desenvolvido buscando alta performance e componentização, utiliz
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/Mateusmcemaia/campus-circular.git
+git clone [https://github.com/Mateusmcemaia/campus-circular.git](https://github.com/Mateusmcemaia/campus-circular.git)
 cd campus-circular
+```
 
 2. **Instale as dependências:**
 ```bash
