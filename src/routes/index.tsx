@@ -61,13 +61,13 @@ function LandingPage() {
               livros, calculadoras, componentes e equipamentos. Nada de frete, nada de desperdício:
               o item troca de mãos no corredor ao lado.
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Button asChild size="lg" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105">
                 <Link to="/anunciar">
-                  Quero anunciar <ArrowRight className="size-4" />
+                  Quero anunciar <ArrowRight className="size-5 ml-2" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="px-8 py-6 text-lg font-semibold rounded-full transition-transform hover:scale-105 border-2">
                 <Link to="/buscar">Buscar itens</Link>
               </Button>
             </div>
