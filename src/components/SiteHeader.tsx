@@ -1,24 +1,26 @@
 import { Link } from "@tanstack/react-router";
-import { Recycle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import uniforLogo from "@/assets/unifor-logo.png"; // Importando a nova logo
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* Adicionei gap-4 para garantir que os elementos nunca se espremam */}
       <div className="container flex h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto gap-4">
         
-        {/* Lado Esquerdo: Logo e Nome */}
+        {/* Lado Esquerdo: Logo da UNIFOR e Nome */}
         <Link to="/" className="flex items-center gap-2 sm:gap-3 transition-transform hover:scale-105 shrink-0">
-          <div className="bg-primary text-primary-foreground p-1.5 sm:p-2 rounded-full">
-            <Recycle className="size-6 sm:size-8" />
-          </div>
+          <img 
+            src={uniforLogo} 
+            alt="Brasão UNIFOR" 
+            className="h-10 sm:h-12 w-auto object-contain shrink-0" 
+          />
           <span className="font-bold text-xl sm:text-2xl tracking-tight">
             CirculaCampus
           </span>
         </Link>
 
-        {/* Centro: Barra de Pesquisa (Visível no desktop, escondida no celular) */}
+        {/* Centro: Barra de Pesquisa */}
         <div className="hidden sm:flex flex-1 max-w-md mx-4">
           <Link to="/buscar" className="relative w-full group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
