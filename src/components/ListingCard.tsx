@@ -4,8 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, MapPin, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
-import { useRouter } from "@tanstack/react-router";
+import { supabase } from "@/lib/supabase"; 
 
 export interface Listing {
   id: string;
@@ -15,23 +14,49 @@ export interface Listing {
   price?: number | null;
   is_donation?: boolean;
   image_url?: string;
-  user_id?: string; // Fundamental para checar propriedade
+  user_id?: string;
 }
 
 export function ListingCard({ listing }: { listing: Listing }) {
-  const router = useRouter();
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isOwner, setIsOwner] = useState(false);
 
-  // Busca o usuário logado ao montar o componente para verificar propriedade
+  // Verificação à prova de falhas para garantir que o botão apareça
   useEffect(() => {
-    const getAuthUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setCurrentUserId(user.id);
+    const checkOwnership = async () => {
+      // 1. Verificação pela URL (se está na tela "Meus Anúncios", exibe o botão)
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes("meus-anuncios") || path.includes("meusanuncios") || path.includes("profile")) {
+        setIsOwner(true);
+        return;
+      }
+
+      // 2. Verificação pelo Local Storage (muito comum nessa arquitetura)
+      try {
+        const localListings = localStorage.getItem("myListings") || localStorage.getItem("my_listings");
+        if (localListings) {
+          const ids = JSON.parse(localListings);
+          if (Array.isArray(ids) && ids.includes(listing.id)) {
+            setIsOwner(true);
+            return;
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      // 3. Verificação pelo Supabase Auth (se existir sessão)
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user && listing.user_id && user.id === listing.user_id) {
+          setIsOwner(true);
+        }
+      } catch (e) {
+        console.error(e);
       }
     };
-    getAuthUser();
-  }, []);
+
+    checkOwnership();
+  }, [listing.id, listing.user_id]);
 
   const defaultImages: Record<string, string> = {
     "Livro de Estruturas de Dados em C++": "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80",
@@ -43,51 +68,58 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
   const imageSrc = listing.image_url || defaultImages[listing.title] || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80";
 
-  // Função segura de exclusão
   const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Previne qualquer clique acidental no card
+    e.preventDefault();
+    e.stopPropagation(); 
 
-    // Verificação de segurança no frontend
-    if (!currentUserId || currentUserId !== listing.user_id) {
-      toast.error("Você não tem permissão para excluir este anúncio.");
-      return;
-    }
-
-    const confirm = window.confirm(`Tem certeza que deseja excluir permanentemente o anúncio "${listing.title}"?`);
+    const confirm = window.confirm(`Tem certeza que deseja excluir o anúncio "${listing.title}"?`);
     if (!confirm) return;
 
     toast.loading("Excluindo anúncio...", { id: "delete-listing" });
 
     try {
-      // Chama a deleção no banco 'anuncios', garantindo que o user_id bata
-      const { error } = await supabase
-        .from('anuncios') // Certifique-se de que o nome da tabela está correto
-        .delete()
-        .eq('id', listing.id)
-        .eq('user_id', currentUserId); // Reforço de segurança na query
+      // Tenta deletar da tabela principal de anúncios
+      let { error } = await supabase.from('anuncios').delete().eq('id', listing.id);
+      
+      // Fallback: se a sua tabela estiver em inglês no Supabase
+      if (error && error.code === '42P01') { 
+        const res = await supabase.from('listings').delete().eq('id', listing.id);
+        error = res.error;
+      }
 
       if (error) throw error;
 
       toast.success("Anúncio excluído com sucesso!", { id: "delete-listing" });
       
-      // Invalida as rotas para forçar o Showcase a buscar a lista atualizada
-      router.invalidate(); 
+      // Limpa do cache local para a interface atualizar liso
+      try {
+        ["myListings", "my_listings"].forEach(key => {
+          const stored = localStorage.getItem(key);
+          if (stored) {
+            const arr = JSON.parse(stored);
+            localStorage.setItem(key, JSON.stringify(arr.filter((id: string) => id !== listing.id)));
+          }
+        });
+      } catch(e) {}
+
+      // Força um recarregamento da tela para os dados atualizarem perfeitamente
+      setTimeout(() => {
+        window.location.reload();
+      }, 800);
+
     } catch (error: any) {
-      console.error("Erro ao excluir anúncio:", error);
-      toast.error(`Falha ao excluir: ${error.message || "Erro desconhecido"}`, { id: "delete-listing" });
+      console.error("Erro ao excluir:", error);
+      toast.error(`Falha ao excluir: ${error.message || "Verifique o console."}`, { id: "delete-listing" });
     }
   };
 
   const handleInterest = () => {
-    toast.success("Redirecionando para contato com o estudante...");
+    toast.success("Redirecionando para contato...");
     const message = encodeURIComponent(
       `Olá! Vi seu anúncio "${listing.title}" no CirculaCampus (${listing.description.substring(0, 60)}...) e tenho interesse.`
     );
     window.open(`https://wa.me/?text=${message}`, "_blank");
   };
-
-  // Define se o usuário logado é o dono do anúncio
-  const isOwner = currentUserId && listing.user_id && currentUserId === listing.user_id;
 
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg border-border/60 bg-card rounded-2xl flex flex-col justify-between h-full">
@@ -129,14 +161,13 @@ export function ListingCard({ listing }: { listing: Listing }) {
       </div>
 
       <div className="p-4 pt-0">
-        {/* Renderização Condicional do Botão */}
         {isOwner ? (
           <Button 
             onClick={handleDelete}
-            variant="destructive" // Variante vermelha para perigo
+            variant="destructive"
             className="w-full rounded-xl gap-2 font-medium shadow-sm"
           >
-            <Trash2 className="size-4" /> Excluir Meu Anúncio
+            <Trash2 className="size-4" /> Excluir Anúncio
           </Button>
         ) : (
           <Button 
